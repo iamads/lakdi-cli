@@ -1,31 +1,17 @@
 class Bot(object):
 
     def __init__(self, mycards, trump):
-        self.mycards = mycards.sort(key=lambda x: self.prioritytable(x[2]))
+        self.mycards = mycards
         self.trump = trump
-        self.mytrumps = [i for i in self.mycards if i[2] == self.trump]
+        self.sortmycardsandtrumps()
 
     def move(self, currentcards):
         if len(currentcards) == 0:
-            self.makefirstmove(self.mycards)
+            return self.makefirstmove()
         else:
-            self.makecountermove(currentcards)
+            return self.makecountermove(currentcards)
 
     def prioritytable(self, numeral):
-        # prioritytable = {
-        #     "A": 13,
-        #     "K": 12,
-        #     "Q": 11,
-        #     "J": 10,
-        #     "10": 9,
-        #     "9": 8,
-        #     "8": 7,
-        #     "7": 6,
-        #     "6": 5,
-        #     "5": 4,
-        #     "4": 3,
-        #     "3": 2,
-        #     "2": 1
         if numeral == "A":
             return 13
         elif numeral == "K":
@@ -52,12 +38,16 @@ class Bot(object):
             return 2
         elif numeral == "3":
             return 1
-     # return prioritytable[numeral]
+        # return prioritytable[numeral]
 
-    def makefirstmove(self, cards):
+    def sortmycardsandtrumps(self):
+        self.mycards.sort(key=lambda x: self.prioritytable(x[2]))
+        self.mytrumps = [i for i in self.mycards if i[0] == self.trump]
+
+    def makefirstmove(self):
         return self.mycards.pop()
 
-     def makecountermove(self, currentcards):
+    def makecountermove(self, currentcards):
         # cards belonging to same suit as of current round
         suitofround = currentcards[0][2]
         validcards = [self.prioritytable(i[2]) for i in self.mycards if i[
@@ -65,6 +55,7 @@ class Bot(object):
         # has anyone thrown trump in this round
         istrumpthere = [self.prioritytable(i[2])
                         for i in currentcards if i[0] == self.trump]
+        istrumpthere.append(0)
         if len(validcards) > 0 and len(istrumpthere) == 0:
             return validcards.pop()
         elif len(validcards) > 0 and len(istrumpthere) > 0:
