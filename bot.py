@@ -1,8 +1,11 @@
-from player import Player
-class Bot(Player):
+from players import *
+class Bot(Players):
 
     def __init__(self,mycards , trump):
-        super(Player, self).init(mycards, trump)
+        self.mycards = mycards
+        self.trump = trump
+        self.sortmycardsandtrumps()
+        print self.mycards
 
     def move(self, currentcards):
         if len(currentcards) == 0:

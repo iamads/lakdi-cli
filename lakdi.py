@@ -1,3 +1,6 @@
+from bot import *
+from players import *
+from pick import pick
 cards = [
     "h_A",
     "h_K",
@@ -55,10 +58,11 @@ players = ["player1", "player2", "player3", "player4"]
 player_cards = {"player1": [], "player2": [], "player3": [], "player4": []}
 playertypes = {"player1": False, "player2": False, "player3": False,
                "player4": False}  # True for human player else false
-
+playerinstance = {}
 trump = "s"  # Needs to be variable
 predictedscore = {"player1": 0, "player2": 0, "player3": 0, "player4": 0}
 currentscore = {"player1": 0, "player2": 0, "player3": 0, "player4": 0}
+currentround = []
 
 
 def getcountofplayers():
@@ -144,6 +148,11 @@ def distributecards():
         "c_7",
         "h_3",
      "d_A"]
+    for player in players:
+        if playertypes[player]:
+            playerinstance[player] = Players(player_cards[player],trump)
+        else:
+            playerinstance[player] = Bot(player_cards[player],trump)
 
 
 def showcards(player):
@@ -162,11 +171,16 @@ def showcardsandgetprediction():
 
 
 def runchance():
+    currentroundcards = []
     for player in players:
-        if playertypes[player]:
-            checkmovevalitdity(playermakemove(player))
-        else:
-            checkmove
+        currentround.append(playermakemove(player,currentroundcards))
+    winner = findwinner(currentround)
+    return winner
+
+
+def playermakemove(player,currentroundcards):
+    return playerinstance[player].move(currentroundcards)
+
 
 def startgame():
     numplayers = getcountofplayers()
@@ -174,5 +188,8 @@ def startgame():
     distributecards()
     showcardsandgetprediction()
     for i in xrange(13):
-        currentscore[runchance()] += 1
+        winner = runchance()
+        currentscore[winner] += 1
+        rotatetheplayers(winner)
+
 startgame()

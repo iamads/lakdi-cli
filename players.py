@@ -10,7 +10,7 @@ class Players(object):
         self.mycards.sort(key=lambda x: self.prioritytable(x[2]))
         self.mytrumps = [i for i in self.mycards if i[0] == self.trump]
 
-    def move(self):         # Add current cards for validity checking
+    def move(self,currentroundcards):         # Add current cards for validity checking
         title = "Choose your card."
         # Need to add get valid cards and only show those as options
         option,index = pick(self.mycards, title)
