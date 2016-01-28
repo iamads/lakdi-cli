@@ -195,7 +195,13 @@ def runchance():
 
 
 def playermakemove(player,currentroundcards):
-    return playerinstance[player].move(currentroundcards)
+    return playerinstance[player].move(player,currentroundcards)
+
+
+def rotatetheplayers(winner):
+    global players
+    startfromhere= players.index(winner)
+    players = players[startfromhere:] + players[:startfromhere]
 
 
 def startgame():
@@ -206,6 +212,8 @@ def startgame():
     for i in xrange(13):
         winner = runchance()
         currentscore[winner] += 1
+        print winner , " won this round."
         rotatetheplayers(winner)
+        raw_input(">Go ahead")
 
 startgame()

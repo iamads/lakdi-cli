@@ -5,9 +5,8 @@ class Bot(Players):
         self.mycards = mycards
         self.trump = trump
         self.sortmycardsandtrumps()
-        print self.mycards
 
-    def move(self, currentcards):
+    def move(self, player,  currentcards):
         if len(currentcards) == 0:
             return self.makefirstmove()
         else:
