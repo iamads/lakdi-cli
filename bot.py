@@ -1,48 +1,14 @@
-class Bot(object):
+from player import Player
+class Bot(Player):
 
-    def __init__(self, mycards, trump):
-        self.mycards = mycards
-        self.trump = trump
-        self.sortmycardsandtrumps()
+    def __init__(self,mycards , trump):
+        super(Player, self).init(mycards, trump)
 
     def move(self, currentcards):
         if len(currentcards) == 0:
             return self.makefirstmove()
         else:
             return self.makecountermove(currentcards)
-
-    def prioritytable(self, numeral):
-        if numeral == "A":
-            return 13
-        elif numeral == "K":
-            return 12
-        elif numeral == "Q":
-            return 11
-        elif numeral == "J":
-            return 10
-        elif numeral == "10":
-            return 9
-        elif numeral == "9":
-            return 8
-        elif numeral == "8":
-            return 7
-        elif numeral == "7":
-            return 6
-        elif numeral == "6":
-            return 5
-        elif numeral == "5":
-            return 4
-        elif numeral == "4":
-            return 3
-        elif numeral == "3":
-            return 2
-        elif numeral == "3":
-            return 1
-        # return prioritytable[numeral]
-
-    def sortmycardsandtrumps(self):
-        self.mycards.sort(key=lambda x: self.prioritytable(x[2]))
-        self.mytrumps = [i for i in self.mycards if i[0] == self.trump]
 
     def makefirstmove(self):
         return self.mycards.pop()
