@@ -7,7 +7,7 @@ class Players(object):
         self.sortmycardsandtrumps()
 
     def sortmycardsandtrumps(self):
-        self.mycards.sort(key=lambda x: self.prioritytable(x[2]))
+        self.mycards.sort(key=lambda x: self.prioritytable(x.split("_")[1]))
         self.mytrumps = [i for i in self.mycards if i[0] == self.trump]
 
     def move(self,currentroundcards):         # Add current cards for validity checking
@@ -41,7 +41,7 @@ class Players(object):
             return 3
         elif numeral == "3":
             return 2
-        elif numeral == "3":
+        elif numeral == "2":
             return 1
         # return prioritytable[numeral]
 

@@ -84,7 +84,7 @@ def assignplayertypes(n):
         playertypes["player1"] = playertypes["player2"] = True
     elif n == 3:
         playertypes["player2"] = playertypes[
-            "player3"] = playertypes["player4"] = True
+            "player3"] = playertypes["player1"] = True
     elif n == 4:
         playertypes["player1"] = playertypes["player2"] = playertypes[
             "player3"] = playertypes["player4"] = True
@@ -170,11 +170,27 @@ def showcardsandgetprediction():
             print player, "predicted ", predictedscore[player]
 
 
+def biggest_same_suit(cards):
+    priority = ["2","3","4","5","6","7","8","9","10","J","Q","K","A"]
+    cards.sort(key=lambda x: priority.index(x.split("_")[1]))
+    return cards.pop()
+
+
+def findwinner(currentcards):
+    trumpsincurrentround = [i for i in currentcards if i[0]==trump]
+    if len(trumpsincurrentround) > 0:
+        # Return biggest card of all trumps
+        return players[currentcards.index(biggest_same_suit(trumpsincurrentround))]
+    else:
+        samesuitasfirstcard = [i for i  in currentcards if i[0]== currentcards[0][0]]
+        print currentcards
+        return players[currentcards.index(biggest_same_suit(samesuitasfirstcard))]
+
 def runchance():
     currentroundcards = []
     for player in players:
-        currentround.append(playermakemove(player,currentroundcards))
-    winner = findwinner(currentround)
+        currentroundcards.append(playermakemove(player,currentroundcards))
+    winner = findwinner(currentroundcards)
     return winner
 
 
