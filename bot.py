@@ -27,15 +27,23 @@ class Bot(Players):
         print "istrumpthere",len(istrumpthere)
         if len(validcards) > 0 and len(istrumpthere) == 0:
             #print "daphne"
-            return validcards.pop()
+            tothrow = validcards.pop()
+            self.mycards.remove(tothrow)
+            return tothrow
         elif len(validcards) > 0 and len(istrumpthere) > 0:
             #print "velma"
-            return validcards.pop(0)
+            tothrow = validcards.pop(0)
+            self.mycards.remove(tothrow)
+            return tothrow
         else:
             #print "fred"
             if self.prioritytable(self.mytrumps[-1]) > max(istrumpthere):
                 #print "shaggy"
-                return self.mycards.pop(self.mytrumps.pop())
+                tothrow = self.mytrumps.pop()
+                self.mycards.remove(tothrow)
+                return tothrow
             else:
                 #print "scooby"
-                return self.mycards.pop(validcards.pop())
+                tothrow = validcards.pop()
+                self.mycards.remove(tothrow)
+                return tothrow

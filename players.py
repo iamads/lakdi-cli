@@ -14,7 +14,7 @@ class Players(object):
         title = player + " Choose your card. current round = " + " ".join(currentroundcards)
         # Need to add get valid cards and only show those as options
         option,index = pick(self.mycards, title)
-        return option
+        return self.mycards.pop(index)
 
     def prioritytable(self, numeral):       # Should be a separate composition
         if numeral == "A":
